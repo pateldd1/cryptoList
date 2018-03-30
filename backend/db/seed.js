@@ -3,6 +3,7 @@ const { Offering } = require('../models/offering');
 const { Investment } = require('../models/investment');
 const { PaymentMethod } = require('../models/paymentMethod');
 const Promise = require('bluebird');
+const Config = require('../configs/config');
 
 mongoose.Promise = global.Promise;
 
@@ -10,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
     mongoose.connect(process.env.MONGO_URL);
 }
 else if (process.env.NODE_ENV === "seed-production") {
-    mongoose.connect(require('../config').MONGO_URL);
+    mongoose.connect(Config.MONGO_URL);
 }
 else {
     mongoose.connect('mongodb://localhost/miniCoinList');
