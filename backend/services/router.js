@@ -16,6 +16,8 @@ router.route('/createInvestment')
 // Offerings API
 router.route('/getOfferings')
     .get(OfferingController.getOfferings);
+router.route('/getOfferingByName')
+    .get(OfferingController.getOfferingByName);
 router.route('/createOffering')
     .post(OfferingController.createOffering);
 router.route('/updateMaxUSD')

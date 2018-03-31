@@ -9,6 +9,11 @@ exports.getOfferings = async(function(req, res, next) {
     res.json({ offerings });
 });
 
+exports.getOfferingByName = async(function(req, res, next) {
+    const offering = await(Offering.findOne({ name: req.query.name }));
+    res.json({ offering });
+})
+
 exports.createOffering = async(function(req, res, next) {
     const { name, maxInvestors, maxUSD } = req.body;
     const createdAt = Date.now();

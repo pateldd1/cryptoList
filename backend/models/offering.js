@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Config = require('../config');
 const Schema = mongoose.Schema;
 
 function validateUnique() {

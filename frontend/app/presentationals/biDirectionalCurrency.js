@@ -7,7 +7,9 @@ export default class BiDirectionalCurrency extends React.Component {
         super(props)
         this.state = {
             usdAmount: '',
-            otherDenominationAmount: ''
+            otherDenominationAmount: '',
+            editingUSDAmount: false,
+            editingOtherDenominationAmount: false
         }
         this.handleUSDTextChange = this.handleUSDTextChange.bind(this);
         this.handleDenominationTextChange = this.handleDenominationTextChange.bind(this);
@@ -17,12 +19,12 @@ export default class BiDirectionalCurrency extends React.Component {
     componentDidUpdate(prevProps, prevState) {
         if (this.props.denomination !== 'USD') {
 
-            if (prevState.usdAmount !== this.state.usdAmount) {
+            if (this.state.editingUSDAmount && prevState.usdAmount !== this.state.usdAmount) {
                 this.setState({
                     otherDenominationAmount: ((parseFloat(this.state.usdAmount) / parseFloat(this.props.USDPerDenomination)) || '').toString()
                 });
             }
-            else if (prevState.otherDenominationAmount !== this.state.otherDenominationAmount) {
+            else if (this.state.editingOtherDenominationAmount && prevState.otherDenominationAmount !== this.state.otherDenominationAmount) {
                 this.setState({
                     usdAmount: ((parseFloat(this.state.otherDenominationAmount) * parseFloat(this.props.USDPerDenomination)) || '').toString()
                 });
@@ -32,11 +34,11 @@ export default class BiDirectionalCurrency extends React.Component {
     }
 
     handleUSDTextChange(event) {
-        this.setState({ usdAmount: event.target.value });
+        this.setState({ usdAmount: event.target.value, editingUSDAmount: true, editingOtherDenominationAmount: false });
     }
 
     handleDenominationTextChange(event) {
-        this.setState({ otherDenominationAmount: event.target.value });
+        this.setState({ otherDenominationAmount: event.target.value, editingUSDAmount: false, editingOtherDenominationAmount: true });
     }
 
     render() {

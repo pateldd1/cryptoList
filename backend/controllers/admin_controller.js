@@ -16,7 +16,7 @@ adminActionMap[investmentActions.ACCEPT][investmentStatuses.WAITLISTED] = async(
     }
 
     await(Investment.update({ _id: investment._id }, { investmentStatus: investmentStatuses.APPROVED }));
-    await(Offering.findOneAndUpdate({ name: offeringName }, { '$inc': { currentUSD: investment.amountInUSD } }));
+    await(Offering.findOneAndUpdate({ name: offeringName }, { '$inc': { currentUSD: investment.amountInUSD, currentInvestors: 1 } }));
 
     return { success: true, message: 'waitlisted investment request accepted!' };
 });
@@ -37,7 +37,7 @@ adminActionMap[investmentActions.REJECT][investmentStatuses.AWAITING_RESPONSE] =
     const offeringName = investment.offeringName;
 
     await(Investment.update({ _id: investment._id }, { investmentStatus: investmentStatuses.REJECTED }));
-    const offering = await(Offering.findOneAndUpdate({ name: offeringName }, { '$inc': { currentUSD: -investment.amountInUSD } }));
+    const offering = await(Offering.findOneAndUpdate({ name: offeringName }, { '$inc': { currentUSD: -investment.amountInUSD, currentInvestors: -1 } }));
 
     return { success: true, message: 'investment request rejected!' };
 });
