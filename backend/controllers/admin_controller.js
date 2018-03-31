@@ -14,6 +14,9 @@ adminActionMap[investmentActions.ACCEPT][investmentStatuses.WAITLISTED] = async(
     if (offering.currentUSD + investment.amountInUSD > offering.maxUSD) {
         return { success: false, message: `Accepting this investment request will exceed the offering's Max USD of ${offering.maxUSD}` };
     }
+    if (offering.currentInvestors + 1 > offering.maxInvestors) {
+        return { success: false, message: `Accepting this investment request will exceed the offering's Max Investors of ${offering.maxInvestors}` };
+    }
 
     await(Investment.update({ _id: investment._id }, { investmentStatus: investmentStatuses.APPROVED }));
     await(Offering.findOneAndUpdate({ name: offeringName }, { '$inc': { currentUSD: investment.amountInUSD, currentInvestors: 1 } }));

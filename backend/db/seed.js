@@ -18,7 +18,7 @@ else {
 }
 
 mongoose.connection.once('connected', () => {
-    mongoose.connection.db.collection("offerings").createIndex({ name: 1 }, { background: true });
+    mongoose.connection.db.collection("offerings").createIndex({ name: 1 }, { unique: true, background: true });
     mongoose.connection.db.collection("investments").createIndex({ investorName: 1 }, { background: true });
     mongoose.connection.db.collection("investments").createIndex({ offeringName: 1 }, { background: true });
     mongoose.connection.db.createCollection("paymentmethods");

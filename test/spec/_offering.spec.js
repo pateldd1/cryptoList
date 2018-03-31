@@ -1,5 +1,5 @@
 exports.testOffering = {
-    name: 'DevToken',
+    name: 'DevToken1',
     maxInvestors: 10000,
     maxUSD: 1000000
 }
