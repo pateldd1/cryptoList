@@ -25,3 +25,7 @@ exports.validateObjectSchema = function (obj1, obj2) {
     }
     return true;
 };
+
+exports.isNumber = function (str) {
+    return (isNaN(str)) ? false : true;
+}

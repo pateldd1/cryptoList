@@ -6,6 +6,7 @@ const { Investment, investmentStatuses } = require('../models/investment');
 const { Offering } = require('../models/offering');
 const { PaymentMethod } = require('../models/paymentMethod');
 const _ = require ('lodash');
+const Util = require('../util');
 
 // Explanation for locking:
 // A race condition could occur where two investors tried to read the offering and they both 'canInvest' based on function below, meaning they are both not waitlisted
@@ -88,6 +89,10 @@ exports.getExchangeRate = async(function(req, res, next) {
 exports.createInvestment = async(function (req, res, next) {
     const { investorName, offeringName, amount, denomination } = req.body;
     const cacheKey = `${investorName}-${denomination}`;
+
+    if (!Util.isNumber(amount) || parseFloat(amount) <= 0) {
+        return res.status(422).json({ error: 'amount entered cannot be negative and must be numerical!'})
+    }
 
     let USDPerDenomination = 1;
 

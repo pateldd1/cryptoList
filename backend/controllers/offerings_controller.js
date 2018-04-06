@@ -1,6 +1,7 @@
 const async = require('asyncawait/async');
 const await = require('asyncawait/await');
 const { Offering } = require('../models/offering');
+const Util = require('../util');
 
 // add validations later
 
@@ -16,6 +17,11 @@ exports.getOfferingByName = async(function(req, res, next) {
 
 exports.createOffering = async(function(req, res, next) {
     const { name, maxInvestors, maxUSD } = req.body;
+
+    if (!Util.isNumber(maxInvestors) || !Util.isNumber(maxUSD) || parseFloat(maxInvestors) <= 0 || parseFloat(maxUSD) <= 0) {
+        return res.status(422).json({ error: 'maxInvestors or maxUSD entered cannot be negative and must be numerical!' })
+    }
+
     const createdAt = Date.now();
     const offering = new Offering({
         name,
