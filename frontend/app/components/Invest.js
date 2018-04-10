@@ -99,7 +99,10 @@ export default class Investment extends Component {
         if (this.state.investorName && this.offeringName && this.state.amount && Util.isNumber(this.state.amount) && this.state.selectedDenomination ) {
             return (
                 <Button
-                    onClick={() => InvestmentActions.createInvestment(this.state.investorName, this.offeringName, parseFloat(this.state.amount), this.state.selectedDenomination)}
+                    onClick={() => {
+                        InvestmentActions.createInvestment(this.state.investorName, this.offeringName, parseFloat(this.state.amount), this.state.selectedDenomination);
+                        this.props.history.replace('/list');
+                    }}
                     bsStyle="success"
                 >
                     Invest {this.state.amount} {this.state.selectedDenomination}!

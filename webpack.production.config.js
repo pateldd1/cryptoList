@@ -3,7 +3,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var StatsPlugin = require('stats-webpack-plugin');
 
 module.exports = {
@@ -22,7 +21,6 @@ module.exports = {
       inject: 'body',
       filename: 'index.html'
     }),
-    new ExtractTextPlugin('[name]-[hash].min.css'),
     new webpack.optimize.UglifyJsPlugin({
       compressor: {
         warnings: false,
@@ -50,10 +48,7 @@ module.exports = {
       loader: 'json'
     }, {
       test: /\.css$/,
-      loader: ExtractTextPlugin.extract('style', 'css?modules&localIdentName=[name]---[local]---[hash:base64:5]!postcss')
+      loader: ['style-loader', 'css-loader']
     }]
-  },
-  postcss: [
-    require('autoprefixer')
-  ]
+  }
 };
